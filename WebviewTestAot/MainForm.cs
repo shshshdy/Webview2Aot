@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using CoreWindowsWrapper;
 using CoreWindowsWrapper.Tools;
 using Diga.Core.Api.Win32;
+using Diga.Core.Api.Win32.GDI;
 using Diga.NativeControls.WebBrowser;
 
 
@@ -74,11 +76,28 @@ namespace WebviewTestAot
             };
             Controls.Add(button);
             Controls.Add(_webveiw);
-            var bytes = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.png"));
-            _bitmap = new NativeBitmap();
-            _bitmap.Data = bytes;
-            _bitmap.Left = 201;
+            var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.bmp");
+            var bytes = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.bmp"));
+            _bitmap = new NativeBitmap
+            {
+                Data = bytes,
+                //BitMap = path,
+                Left = 20,
+                Top = 421
+            };
+            _bitmap.Clicked += (s, e) => Debug.WriteLine("click");
+            _bitmap.DblClicked += (s, e) => MessageBox.Show("double click");
             Controls.Add(_bitmap);
+
+            path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "ok.bmp");
+            var bitmap = new NativeBitmap
+            {
+                //Data = bytes,
+                BitMap = path,
+                Left = 400,
+                Top = 421
+            };
+            Controls.Add(bitmap);
         }
 
         protected override void OnBeforeCreate(BeforeWindowCreateEventArgs e)

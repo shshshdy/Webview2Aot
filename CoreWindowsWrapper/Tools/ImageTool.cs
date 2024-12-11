@@ -4,14 +4,15 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Diga.Core.Api.Win32;
 using Diga.Core.Api.Win32.Com;
+using Diga.Core.Api.Win32.GDI;
 
 namespace CoreWindowsWrapper.Tools
 {
     internal class ImageTool
     {
 
-        [DllImport("user32.dll", EntryPoint="LoadIcon" , CharSet = CharSet.Auto)]
-        public static extern IntPtr LoadIcon([In] IntPtr hInstance, [In] IntPtr id) ;
+        [DllImport("user32.dll", EntryPoint = "LoadIcon", CharSet = CharSet.Auto)]
+        public static extern IntPtr LoadIcon([In] IntPtr hInstance, [In] IntPtr id);
 
 
         public static IntPtr SafeLoadIconFromFile(string filePath)
@@ -27,7 +28,7 @@ namespace CoreWindowsWrapper.Tools
         {
             IntPtr hBmp = User32.LoadImage(IntPtr.Zero, filePath, ImageTypeConst.IMAGE_BITMAP, 0, 0,
                 LoadResourceConst.LR_LOADFROMFILE | LoadResourceConst.LR_DEFAULTSIZE | LoadResourceConst.LR_SHARED);
-            
+
             return hBmp;
         }
 
@@ -38,7 +39,7 @@ namespace CoreWindowsWrapper.Tools
             return hIcon;
         }
 
-      
+
 
         public static IntPtr LoadHandIcon()
         {
@@ -86,12 +87,12 @@ namespace CoreWindowsWrapper.Tools
         {
             return SafeLoadIconFromResource(Kernel32.GetModuleHandle(null), resId);
         }
-        public static IntPtr SafeLoadIconFromResource(IntPtr instance,int resId)
+        public static IntPtr SafeLoadIconFromResource(IntPtr instance, int resId)
         {
             IntPtr hIcon = User32.LoadImage(instance, Win32Api.MakeInterSource(resId), ImageTypeConst.IMAGE_ICON,
                 User32.GetSystemMetrics(SystemMetric.SM_CXSMICON),
                 User32.GetSystemMetrics(SystemMetric.SM_CYSMICON), 0);
-            
+
             if (hIcon == IntPtr.Zero)
             {
                 Win32Exception ex = new Win32Exception(Marshal.GetLastWin32Error());
@@ -113,21 +114,24 @@ namespace CoreWindowsWrapper.Tools
         }
         public static IntPtr SafeLoadBitmapFromResource(byte[] bytes)
         {
-           return SafeLoadBitmapFromResource(Kernel32.GetModuleHandle(null), bytes);
+           
+            return SafeLoadBitmapFromResource(IntPtr.Zero,bytes);
         }
         public static IntPtr SafeLoadBitmapFromResource(IntPtr instance, byte[] bytes)
         {
-            IntPtr hBmp = LoadImage(instance, bytes, ImageTypeConst.IMAGE_BITMAP, 0, 0,
-                LoadResourceConst.LR_DEFAULTSIZE | LoadResourceConst.LR_SHARED);
-            return hBmp;
+            int size = bytes.Length;
+            IntPtr hGlobal = Marshal.AllocHGlobal(size);
+            Marshal.Copy(bytes, 0, hGlobal, size);
+            
+            var bitmap = Gdi32.CreateBitmap(258, 96, 1, 24, hGlobal);
+            
+            //IntPtr hBmp = User32.LoadImage(instance, bitmap, ImageTypeConst.IMAGE_BITMAP, 0, 0,
+            //     LoadResourceConst.LR_DEFAULTSIZE | LoadResourceConst.LR_SHARED);
+
+            Marshal.FreeHGlobal(hGlobal);
+
+            return bitmap;
         }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern IntPtr LoadImage(IntPtr hInst, byte[] lpsz, uint nImageType, int cxDesired, int cyDesired, uint fuLoad);
-
-        [DllImport("gdi32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool DeleteObject(IntPtr hObject);
 
     }
 }

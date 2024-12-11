@@ -12,7 +12,7 @@ namespace CoreWindowsWrapper
             return (MessageBoxResult)User32.MessageBox(parent, message, caption, (uint) options);
         }
 
-        public static MessageBoxResult Show(string message, string caption="API")
+        public static MessageBoxResult Show(string message, string caption="提示")
         {
             return Show(User32.GetActiveWindow(), message, caption);
         }
