@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Diga.Core.Api.Win32;
+using Diga.Core.Api.Win32.GDI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Diga.Core.Api.Win32;
-using Diga.Core.Api.Win32.GDI;
 using Point = Diga.Core.Api.Win32.Point;
 // ReSharper disable CheckNamespace
 
@@ -159,6 +157,7 @@ namespace CoreWindowsWrapper.Win32ApiForm
         private int _Top = unchecked((int)0x80000000);
         private int _Width = unchecked((int)0x80000000);
         private int _Height = unchecked((int)0x80000000);
+
         public IMenuItem Menu { get; set; }
         private uint Style { get; set; } = WindowStylesConst.WS_OVERLAPPEDWINDOW | WindowStylesConst.WS_VISIBLE;
         private uint ClassStyle { get; set; } = (uint)(ClassStyles.CS_HREDRAW | ClassStyles.CS_VREDRAW | ClassStyles.CS_DBLCLKS);
@@ -468,12 +467,14 @@ namespace CoreWindowsWrapper.Win32ApiForm
             User32.SetWindowLongPtr(this.Handle, GWL.GWL_STYLE, p);
 
         }
-        [DllImport("user32.dll")]
-        public static extern IntPtr FindWindowA(string lpClassName, string lpWindowName);
-        [DllImport("user32.dll")]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        #region 透明度模式
+        public const int LWA_ALPHA = 0x2;
+        public const int LWA_COLORKEY = 0x1;
+        #endregion
+
+
+
         public void UpdateWidow()
         {
             User32.SetWindowPos(this.Handle, IntPtr.Zero, 0, 0, 0, 0,
@@ -896,7 +897,7 @@ namespace CoreWindowsWrapper.Win32ApiForm
                         window.ToolBarHandle = User32.CreateWindowEx(0, "ToolbarWindow32", null,
                             WindowStylesConst.WS_CHILD | 512, 0,
                             0, 0, 0, hWnd, IntPtr.Zero, Win32Window.InstanceHandle, IntPtr.Zero);
-                        
+
                         User32.AddTbButton(window.ToolBarHandle, "Test", 50);
                         //Win32Api.AddTbButton(window.ToolBarHandle, "Test2", 51);
                         User32.ShowWindow(window.ToolBarHandle, (int)ShowWindowCommands.Show);
@@ -1268,5 +1269,8 @@ namespace CoreWindowsWrapper.Win32ApiForm
         {
             User32.RedrawWindow(this.Handle, IntPtr.Zero, IntPtr.Zero, RedrawConstants.RDW_ERASENOW | RedrawConstants.RDW_ALLCHILDREN | RedrawConstants.RDW_FRAME);
         }
+
+
+
     }
 }

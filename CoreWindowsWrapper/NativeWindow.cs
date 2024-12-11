@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Diga.Core.Api.Win32;
 using CoreWindowsWrapper.Win32ApiForm;
 using System.Threading;
+using CoreWindowsWrapper.Tools;
 
 namespace CoreWindowsWrapper
 {
@@ -34,7 +35,7 @@ namespace CoreWindowsWrapper
         {
             get
             {
-                if(this._Window != null)
+                if (this._Window != null)
                     return this._Window.IsMainWindow;
                 return this._IsMainWindow;
             }
@@ -55,14 +56,14 @@ namespace CoreWindowsWrapper
         {
             get
             {
-                if(this._Window != null)
+                if (this._Window != null)
                     return this._Window.IsPanel;
                 return this._IsPanel;
             }
             set
             {
                 this._IsPanel = value;
-                if(this._Window != null)
+                if (this._Window != null)
                     this._Window.IsPanel = value;
             }
         }
@@ -71,14 +72,14 @@ namespace CoreWindowsWrapper
         {
             get
             {
-                if(this._Window != null)
+                if (this._Window != null)
                     return this._Window.DockType;
                 return this._DockType;
             }
             set
             {
                 this._DockType = value;
-                if(this._Window != null)
+                if (this._Window != null)
                     this._Window.DockType = value;
             }
         }
@@ -99,11 +100,51 @@ namespace CoreWindowsWrapper
             }
         }
 
+        private bool _opacity;
+        /// <summary>
+        /// 设置背景色
+        /// </summary>
+        public bool Opacity
+        {
+            get => _opacity;
+            set
+            {
+                if (_opacity == value) return;
+                _opacity = value;
+                if (_opacity)
+                {
+                    UpdateExStyle(WindowStylesConst.WS_EX_LAYERED);
+                    User32.SetLayeredWindowAttributes(Handle, (uint)_Window.Color, 0, Win32Window.LWA_COLORKEY);
+                }
+            }
+        }
+
+        bool _showBodyFrame = true;
+        /// <summary>
+        /// 显示边框
+        /// </summary>
+        public bool ShowBodyFrame
+        {
+            get => _showBodyFrame;
+            set
+            {
+                if (_showBodyFrame == value) return;
+                _showBodyFrame = value;
+                if (!_showBodyFrame)
+                {
+                    var style = GetWindowStyle();
+                    style = style & ~WindowStylesConst.WS_CAPTION & ~WindowStylesConst.WS_SYSMENU & ~WindowStylesConst.WS_SIZEBOX;
+                    UpdateStyle(style);
+                    User32.ShowWindow(Handle, 5);
+                }
+            }
+        }
+
         public IntPtr Accelerators
         {
             get
             {
-                if(this._Window != null)
+                if (this._Window != null)
                 {
                     return this._Window.AcceleratorTableHandle;
                 }
@@ -130,7 +171,7 @@ namespace CoreWindowsWrapper
         public event EventHandler<PaintEventArgs> Paint;
         public event EventHandler<NativeKeyEventArgs> KeyDown;
         public event EventHandler<NativeKeyEventArgs> KeyUp;
-        public event EventHandler<NativeKeyEventArgs> SysKeyDown; 
+        public event EventHandler<NativeKeyEventArgs> SysKeyDown;
 
         internal NativeWindow(Win32Window wnd)
         {
@@ -146,7 +187,7 @@ namespace CoreWindowsWrapper
 
         }
 
-      
+
         public NativeWindow(IntPtr hookWindowHandle)
         {
             this.ControlType = ControlType.Window;
@@ -177,7 +218,7 @@ namespace CoreWindowsWrapper
         public bool SetWindowRectByClientRect(Rect rect)
         {
             var rrect = GetWindowRectByClientRect(rect);
-            if(rrect.Width != 0 && rrect.Height != 0)
+            if (rrect.Width != 0 && rrect.Height != 0)
             {
                 this.Left = rrect.Left;
                 this.Top = rrect.Top;
@@ -191,13 +232,13 @@ namespace CoreWindowsWrapper
         public Rect GetWindowRectByClientRect(Rect rect)
         {
             bool result = User32.AdjustWindowRectEx(ref rect, this.GetWindowStyle(), this.Menu != null, this.GetWindowExStyle());
-            if(result)
+            if (result)
             {
                 return rect;
             }
             else
             {
-                return new Rect(0,0,0,0);
+                return new Rect(0, 0, 0, 0);
             }
 
         }
@@ -286,7 +327,7 @@ namespace CoreWindowsWrapper
             this._Window.Invlidate();
         }
 
-       
+
 
         public void Redraw()
         {
@@ -337,10 +378,10 @@ namespace CoreWindowsWrapper
         {
             get => this._Window.Location;
             set => this._Window.Location = value;
-           
+
         }
 
-        
+
         int IControl.ControlId { get; set; } = -1;
         string IControl.TypeIdentifyer
         {
@@ -429,7 +470,7 @@ namespace CoreWindowsWrapper
 
         private void OnKeyUp(NativeKeyEventArgs e)
         {
-            KeyUp?.Invoke(this,e);
+            KeyUp?.Invoke(this, e);
         }
 
         private void OnKeyDownInternal(object sender, NativeKeyEventArgs e)
@@ -511,7 +552,7 @@ namespace CoreWindowsWrapper
         }
         private void Initialize(IntPtr parentHandle)
         {
-            this._Window = new Win32Window(parentHandle, this.IsMainWindow,this.IsPanel, this.DockType);
+            this._Window = new Win32Window(parentHandle, this.IsMainWindow, this.IsPanel, this.DockType);
 
             InitDefaults();
         }
@@ -568,7 +609,7 @@ namespace CoreWindowsWrapper
                 NativeApp.StopModalDispatch();
             };
             NativeApp.RunModalDispatch();
-            
+
         }
         public void Show()
         {
@@ -628,7 +669,7 @@ namespace CoreWindowsWrapper
         }
         public virtual void OnKeyDown(NativeKeyEventArgs e)
         {
-            KeyDown?.Invoke(this,e);
+            KeyDown?.Invoke(this, e);
         }
         public Rect GetClientRect()
         {

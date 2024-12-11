@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Diga.Core.Api.Win32;
+using Diga.Core.Api.Win32.Com;
 
 namespace CoreWindowsWrapper.Tools
 {
@@ -110,6 +111,23 @@ namespace CoreWindowsWrapper.Tools
                 LoadResourceConst.LR_DEFAULTSIZE | LoadResourceConst.LR_SHARED);
             return hBmp;
         }
+        public static IntPtr SafeLoadBitmapFromResource(byte[] bytes)
+        {
+           return SafeLoadBitmapFromResource(Kernel32.GetModuleHandle(null), bytes);
+        }
+        public static IntPtr SafeLoadBitmapFromResource(IntPtr instance, byte[] bytes)
+        {
+            IntPtr hBmp = LoadImage(instance, bytes, ImageTypeConst.IMAGE_BITMAP, 0, 0,
+                LoadResourceConst.LR_DEFAULTSIZE | LoadResourceConst.LR_SHARED);
+            return hBmp;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr LoadImage(IntPtr hInst, byte[] lpsz, uint nImageType, int cxDesired, int cyDesired, uint fuLoad);
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteObject(IntPtr hObject);
 
     }
 }
