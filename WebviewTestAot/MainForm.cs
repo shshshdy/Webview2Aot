@@ -19,6 +19,15 @@ namespace WebviewTestAot
         public MainForm()
         {
             InitializeComponent();
+            Create += MainForm_Create;
+        }
+
+        private void MainForm_Create(object? sender, CreateEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_webveiw.BrowserVersion))
+            {
+                //TODO 下载 webview2 runtime 到 ./Data/Web目录
+            }
         }
     }
 
@@ -30,12 +39,13 @@ namespace WebviewTestAot
         protected void InitializeComponent()
         {
 
-            BackColor = ColorTool.Yellow;
             Opacity = true;
             //ShowBodyFrame = false;
-            this.Text = "xxx";
-            this.Width = 800;
-            this.Height = 600;
+            Text = "xxx";
+            Width = 800;
+            Height = 600;
+            StartUpPosition = WindowsStartupPosition.CenterScreen;
+
             var button = new NativeButton
             {
                 Location = new Diga.Core.Api.Win32.Point(20, 20),
@@ -48,19 +58,23 @@ namespace WebviewTestAot
             button.Clicked += (s, e) =>
             {
                 _webveiw.Height += 50;
-                //_webveiw.Url = "https://www.baidu.com";
             };
-            this.StartUpPosition = WindowsStartupPosition.CenterScreen;
+            Controls.Add(button);
+            var env = Path.Combine(AppContext.BaseDirectory, "Data", "Web");
+            if (!Directory.Exists(env))
+            {
+                env = string.Empty;
+            }
             _webveiw = new NativeWebBrowser()
             {
                 Url = "https://www.bing.com",
                 UserDataFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Cache"),
+                EnvFolder = env,
                 Width = 800,
                 Height = 400,
                 Top = 20,
                 Dock = false
             };
-            Controls.Add(button);
             Controls.Add(_webveiw);
             var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.png");
             var bytes = File.ReadAllBytes(path);
@@ -79,7 +93,6 @@ namespace WebviewTestAot
                 }
             };
             Controls.Add(_bitmap);
-
             path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "ok.bmp");
             var bitmap = new NativeBitmap
             {

@@ -112,6 +112,13 @@ namespace CoreWindowsWrapper
             {
                 if (_opacity == value) return;
                 _opacity = value;
+                if (value)
+                {
+                    if (BackColor == 0xF0F0F0)
+                    {
+                        BackColor = ColorTool.Yellow;
+                    }
+                }
                 if (_isCreated)
                     ChangeOpacity();
             }
