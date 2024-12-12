@@ -28,15 +28,9 @@
 		<None Include="..\lib\arm64\Diga.WebView2.Native.dll" Link="lib\Diga.WebView2.Native.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="..\lib\arm64\Diga.WebView2.Native.lib" Link="lib\Diga.WebView2.Native.lib">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 	<ItemGroup Condition="'$(IsX64)'=='true'">
 		<None Include="..\lib\x64\Diga.WebView2.Native.dll" Link="lib\Diga.WebView2.Native.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="..\lib\x64\Diga.WebView2.Native.lib" Link="lib\Diga.WebView2.Native.lib">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
