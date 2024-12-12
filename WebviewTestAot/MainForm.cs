@@ -39,7 +39,7 @@ namespace WebviewTestAot
         protected void InitializeComponent()
         {
 
-            Opacity = true;
+            //Opacity = true;
             //ShowBodyFrame = false;
             Text = "xxx";
             Width = 800;
