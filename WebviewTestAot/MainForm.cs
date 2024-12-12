@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using CoreWindowsWrapper;
 using CoreWindowsWrapper.Tools;
 using Diga.Core.Api.Win32;
 using Diga.Core.Api.Win32.GDI;
 using Diga.NativeControls.WebBrowser;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace WebviewTestAot
@@ -17,25 +19,6 @@ namespace WebviewTestAot
         public MainForm()
         {
             InitializeComponent();
-            Create += MainForm_Create;
-        }
-
-        private void MainForm_Create(object? sender, CreateEventArgs e)
-        {
-            Opacity = true;
-            //ShowBodyFrame = false;
-        }
-
-        private void OkButton_Clicked(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void CancelButton_Clicked(object sender, EventArgs e)
-        {
-
-
-
         }
     }
 
@@ -46,7 +29,10 @@ namespace WebviewTestAot
         NativeBitmap _bitmap;
         protected void InitializeComponent()
         {
+
             BackColor = ColorTool.Yellow;
+            Opacity = true;
+            //ShowBodyFrame = false;
             this.Text = "xxx";
             this.Width = 800;
             this.Height = 600;
@@ -76,27 +62,33 @@ namespace WebviewTestAot
             };
             Controls.Add(button);
             Controls.Add(_webveiw);
-            var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.bmp");
-            var bytes = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.bmp"));
+            var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.png");
+            var bytes = File.ReadAllBytes(path);
             _bitmap = new NativeBitmap
             {
-                Data = bytes,
-                //BitMap = path,
+                Source = bytes.ToUint(),
                 Left = 20,
                 Top = 421
             };
-            _bitmap.Clicked += (s, e) => Debug.WriteLine("click");
-            _bitmap.DblClicked += (s, e) => MessageBox.Show("double click");
+            _bitmap.Clicked += (s, e) =>
+            {
+                var result = MessageBox.Show(this.Handle, "确认退出吗?", "提示", MessageBoxOptions.OkCancel);
+                if (result == MessageBoxResult.Ok)
+                {
+                    Close();
+                }
+            };
             Controls.Add(_bitmap);
 
             path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "ok.bmp");
             var bitmap = new NativeBitmap
             {
-                //Data = bytes,
-                BitMap = path,
+                Source = path,
                 Left = 400,
                 Top = 421
             };
+
+            bitmap.DblClicked += (s, e) => MessageBox.Show("double click");
             Controls.Add(bitmap);
         }
 

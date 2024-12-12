@@ -15,8 +15,8 @@
 		<PackageReference Include="Diga.WebView2.Interop.AOT" Version="1.0.1-preview" />
 		<PackageReference Include="Diga.WebView2.Wrapper.AOT" Version="1.0.1-preview" />
 		<PackageReference Include="MimeTypeExtension" Version="1.0.30" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
 		<!--<PackageReference Include="Diga.NativeControls.WebBrowser.AOT" Version="1.0.1-preview" />-->
-		<PackageReference Include="System.Drawing.Common" Version="8.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\CoreWindowsWrapper\CoreWindowsWrapper.csproj" />

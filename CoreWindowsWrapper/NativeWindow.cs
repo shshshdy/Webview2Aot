@@ -50,6 +50,7 @@ namespace CoreWindowsWrapper
         private NativeWindow ParentWindow = null;
         public ControlCollection Controls => this._Window.Controls;
         private WindowsStartupPosition _StartUpPosition;
+        private bool _isCreated = false;
         private bool _IsMainWindow;
         private bool _IsPanel;
         internal bool IsPanel
@@ -111,11 +112,17 @@ namespace CoreWindowsWrapper
             {
                 if (_opacity == value) return;
                 _opacity = value;
-                if (_opacity)
-                {
-                    UpdateExStyle(WindowStylesConst.WS_EX_LAYERED);
-                    User32.SetLayeredWindowAttributes(Handle, (uint)_Window.Color, 0, Win32Window.LWA_COLORKEY);
-                }
+                if (_isCreated)
+                    ChangeOpacity();
+            }
+        }
+
+        private void ChangeOpacity()
+        {
+            if (_opacity)
+            {
+                UpdateExStyle(WindowStylesConst.WS_EX_LAYERED);
+                User32.SetLayeredWindowAttributes(Handle, (uint)_Window.Color, 0, Win32Window.LWA_COLORKEY);
             }
         }
 
@@ -130,13 +137,19 @@ namespace CoreWindowsWrapper
             {
                 if (_showBodyFrame == value) return;
                 _showBodyFrame = value;
-                if (!_showBodyFrame)
-                {
-                    var style = GetWindowStyle();
-                    style = style & ~WindowStylesConst.WS_CAPTION & ~WindowStylesConst.WS_SYSMENU & ~WindowStylesConst.WS_SIZEBOX;
-                    UpdateStyle(style);
-                    User32.ShowWindow(Handle, 5);
-                }
+                if (_isCreated)
+                    ChangeBodyFrame();
+            }
+        }
+
+        private void ChangeBodyFrame()
+        {
+            if (!_showBodyFrame)
+            {
+                var style = GetWindowStyle();
+                style = style & ~WindowStylesConst.WS_CAPTION & ~WindowStylesConst.WS_SYSMENU & ~WindowStylesConst.WS_SIZEBOX;
+                UpdateStyle(style);
+                User32.ShowWindow(Handle, 5);
             }
         }
 
@@ -177,14 +190,14 @@ namespace CoreWindowsWrapper
         {
             this._Window = wnd;
             InitEvents();
-
-
+            Create += Created;
         }
+
         public NativeWindow()
         {
             this.ControlType = ControlType.Window;
             Initialize();
-
+            Create += Created;
         }
 
 
@@ -193,6 +206,7 @@ namespace CoreWindowsWrapper
             this.ControlType = ControlType.Window;
             this._Window = Win32Window.CreateAsHook(hookWindowHandle);
             InitializeHook();
+            Create += Created;
         }
 
         public NativeWindow(NativeWindow parent)
@@ -202,10 +216,14 @@ namespace CoreWindowsWrapper
             Initialize(parent.Handle);
             this.ParentWindow.Create += OnParentCreate;
             //this.ParentWindow.Destroed += OnParentDestroyed;
-
+            Create += Created;
 
         }
-
+        private void Created(object sender, CreateEventArgs e)
+        {
+            ChangeOpacity();
+            ChangeBodyFrame();
+        }
         private void OnParentDestroyed(object sender, CreateEventArgs e)
         {
             this.Close();

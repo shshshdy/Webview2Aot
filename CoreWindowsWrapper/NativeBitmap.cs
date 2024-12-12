@@ -1,17 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using Diga.Core.Api.Win32;
-using Diga.Core.Api.Win32.GDI;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CoreWindowsWrapper
 {
     public class NativeBitmap : NativeLabel
     {
         private bool _created = false;
-        private string _bitMap;
-        private byte[] _data;
+        private object _source;
 
         protected override void Initialize()
         {
@@ -29,60 +25,42 @@ namespace CoreWindowsWrapper
         }
 
 #nullable enable
-        public string? BitMap
+        /// <summary>
+        /// bitmap文件路径<br/>
+        /// 或者bitmap内存地址
+        /// </summary>
+        public object? Source
         {
-            get => _bitMap;
+            get => _source;
             set
             {
-                if (_bitMap == value) return;
-                _bitMap = value;
-                if (_created)
-                    Refresh();
-            }
-        }
-        public byte[]? Data
-        {
-            get => _data; set
-            {
-                if (_data == value) return;
-                _data = value;
+                if (_source == value) return;
+                _source = value;
                 if (_created)
                     Refresh();
             }
         }
         public void Refresh()
         {
-            if (!string.IsNullOrEmpty(this.BitMap))
+            if (Source == null) return;
+            if (Source.GetType() == typeof(string))
             {
-                if (!File.Exists(this.BitMap)) return;
-                IntPtr hBmp = Tools.ImageTool.SafeLoadBitmapFromFile(this.BitMap);
-                User32.SendMessage(this.Handle, StaticControlMessages.STM_SETIMAGE, ImageTypeConst.IMAGE_BITMAP, hBmp);
+                var path = Source.ToString();
+                if (!string.IsNullOrEmpty(path))
+                {
+                    if (!File.Exists(path)) return;
+                    IntPtr hBmp = Tools.ImageTool.SafeLoadBitmapFromFile(path);
+                    User32.SendMessage(Handle, StaticControlMessages.STM_SETIMAGE, ImageTypeConst.IMAGE_BITMAP, hBmp);
+                }
             }
-            else if (Data?.Length > 0)
+            else if (Source.GetType() == typeof(nint))
             {
-
-                var lpBites = System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(Data, 0);
-                var hBitmap = Gdi32.CreateBitmap(258, 96, 1, 24, lpBites);
-                User32.SendMessage(this.Handle, StaticControlMessages.STM_SETIMAGE, ImageTypeConst.IMAGE_BITMAP, hBitmap);
-
-                //var screenDC = GetDC(this.Handle);
-                //var compatibleDC = Gdi32.CreateCompatibleDC(screenDC);
-                //var oldBitmap = Gdi32.SelectObject(compatibleDC, hBitmap);
-                //const int SRCCOPY = 0x00CC0020;
-                //Gdi32.BitBlt(screenDC, Left, Top, 258, 96, compatibleDC, 0, 0, SRCCOPY);
-
-                //Gdi32.SelectObject(compatibleDC, oldBitmap);
-                //Gdi32.DeleteObject(hBitmap);
-                //ReleaseDC(this.Handle, screenDC);
-                //ReleaseDC(this.Handle, compatibleDC);
-
+                var hBmp = (nint)Source;
+                if (hBmp != IntPtr.Zero)
+                    User32.SendMessage(this.Handle, StaticControlMessages.STM_SETIMAGE, ImageTypeConst.IMAGE_BITMAP, hBmp);
             }
 
         }
-        [DllImport("user32.dll", EntryPoint = "GetDC")]
-        private static extern IntPtr GetDC(IntPtr hWnd);
-        [DllImport("user32.dll", EntryPoint = "ReleaseDC")]
-        private static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
         protected override bool ControlProc(IntPtr hWndParent, IntPtr hWndControl, int controlId, uint command, IntPtr wParam, IntPtr lParam)
         {
             bool handled = false;
