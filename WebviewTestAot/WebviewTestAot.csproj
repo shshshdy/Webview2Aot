@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net9.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PublishAot>true</PublishAot>
@@ -11,11 +11,20 @@
 		<IsArm64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'Arm64'">true</IsArm64>
 		<IsX64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'X64'">true</IsX64>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<WindowsSupportedOSPlatformVersion>5.1</WindowsSupportedOSPlatformVersion>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<TargetPlatformMinVersion>5.1</TargetPlatformMinVersion>
+		<PublishAot>true</PublishAot>
+		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Diga.WebView2.Interop.AOT" Version="1.0.1-preview" />
 		<PackageReference Include="Diga.WebView2.Wrapper.AOT" Version="1.0.1-preview" />
 		<PackageReference Include="MimeTypeExtension" Version="1.0.30" />
 		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+		<PackageReference Include="VC-LTL" Version="5.1.1" />
 		<!--<PackageReference Include="Diga.NativeControls.WebBrowser.AOT" Version="1.0.1-preview" />-->
 	</ItemGroup>
 	<ItemGroup>

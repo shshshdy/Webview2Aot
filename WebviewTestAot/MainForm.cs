@@ -1,30 +1,21 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Runtime.InteropServices;
-using CoreWindowsWrapper;
-using CoreWindowsWrapper.Tools;
-using Diga.Core.Api.Win32;
-using Diga.Core.Api.Win32.GDI;
+﻿using CoreWindowsWrapper;
 using Diga.NativeControls.WebBrowser;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace WebviewTestAot
 {
     public partial class MainForm : NativeWindow
     {
-
         public MainForm()
         {
+           
             InitializeComponent();
             Create += MainForm_Create;
         }
 
         private void MainForm_Create(object? sender, CreateEventArgs e)
         {
-            if (string.IsNullOrEmpty(_webveiw.BrowserVersion))
+            if (string.IsNullOrEmpty(_webveiw?.BrowserVersion))
             {
                 //TODO 下载 webview2 runtime 到 ./Data/Web目录
             }
@@ -39,7 +30,7 @@ namespace WebviewTestAot
         protected void InitializeComponent()
         {
 
-            //Opacity = true;
+            Opacity = true;
             //ShowBodyFrame = false;
             Text = "xxx";
             Width = 800;
@@ -76,6 +67,7 @@ namespace WebviewTestAot
                 Dock = false
             };
             Controls.Add(_webveiw);
+          
             var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.png");
             var bytes = File.ReadAllBytes(path);
             _bitmap = new NativeBitmap

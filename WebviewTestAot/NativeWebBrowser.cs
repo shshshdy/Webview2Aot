@@ -82,7 +82,7 @@ namespace Diga.NativeControls.WebBrowser
         /// </summary>
         public string UserDataFolder { get; set; } = AppContext.BaseDirectory;
 
-        public string BrowserVersion => _WebViewControl.BrowserInfo;
+        public string? BrowserVersion => _WebViewControl?.BrowserInfo;
 
         public event EventHandler<NavigationStartingEventArgs> NavigationStart;
 
@@ -186,6 +186,7 @@ namespace Diga.NativeControls.WebBrowser
             }
             catch (Exception ex)
             {
+                File.WriteAllText("loadError.txt", ex.Message + "\r\n" + ex.StackTrace);
                 Debug.Print("CreateWebViewControl", ex);
             }
         }
