@@ -1,6 +1,3 @@
-
-
-
 namespace WinTest
 {
     public partial class Form1 : Form
