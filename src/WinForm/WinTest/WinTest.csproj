@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<WindowsSupportedOSPlatformVersion>5.1</WindowsSupportedOSPlatformVersion>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<TargetPlatformMinVersion>5.1</TargetPlatformMinVersion>
+		<PublishAot>true</PublishAot>
+		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+		<PackageReference Include="VC-LTL" Version="5.1.1" />
+		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
+		<TrimmerRootAssembly Include="Microsoft.Web.WebView2.Core" />
+	</ItemGroup>
+
+</Project>
