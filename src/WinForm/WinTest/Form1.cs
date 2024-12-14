@@ -38,10 +38,8 @@ namespace WinTest
         {
             try
             {
-#if DEBUG
-                await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(@"C:\install\webview2");
-#else
-                var path = Path.Combine(AppContext.BaseDirectory, "webview2");
+#if !DEBUG
+                var path = Path.Combine(AppContext.BaseDirectory, "Data","webview");
                 if (Directory.Exists(path))
                 {
                     await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(path);
