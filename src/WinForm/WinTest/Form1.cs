@@ -19,15 +19,9 @@ namespace WinTest
 
             _label = new Label
             {
-                Text = "label1",
+                Text = "clicked",
                 Parent = this,
                 Location = new Point(40, 40)
-            };
-            new Label
-            {
-                Text = AppContext.BaseDirectory,
-                Parent = this,
-                Location = new Point(40, 80)
             };
             _ = CreateView();
 
@@ -38,21 +32,26 @@ namespace WinTest
         {
             try
             {
-#if !DEBUG
-                var path = Path.Combine(AppContext.BaseDirectory, "Data","webview");
+                string? envFolder = null;
+                string userDataFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Cache");
+                var path = Path.Combine(AppContext.BaseDirectory, "Data", "Web");
                 if (Directory.Exists(path))
                 {
-                    await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(path);
+                    envFolder = path;
                 }
-#endif
+                if (!Directory.Exists(userDataFolder))
+                {
+                    Directory.CreateDirectory(userDataFolder);
+                }
+                var environment = await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(envFolder, userDataFolder);
                 var webview = new Microsoft.Web.WebView2.WinForms.WebView2()
                 {
-                    Source = new Uri("https://www.baidu.com"),
                     Parent = this,
                     Size = new Size(800, 300),
                     Location = new Point(0, 81),
                 };
-                await Task.CompletedTask;
+                await webview.EnsureCoreWebView2Async(environment);
+                webview.Source = new Uri("https://www.baidu.com");
             }
             catch (Exception ex)
             {
