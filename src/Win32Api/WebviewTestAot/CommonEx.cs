@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace WebviewTestAot
+﻿namespace WebviewTestAot
 {
     public static class CommonEx
     {
+        /// <summary>
+        /// 任意图片转bmp内存地址
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         public static nint ToUint(this byte[] bytes)
         {
             using (var stream = new MemoryStream(bytes))
