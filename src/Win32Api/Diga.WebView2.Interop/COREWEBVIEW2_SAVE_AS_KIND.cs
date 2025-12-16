@@ -1,0 +1,12 @@
+using System;
+using System.Runtime.InteropServices;
+
+namespace Diga.WebView2.Interop;
+
+public enum COREWEBVIEW2_SAVE_AS_KIND
+{
+    COREWEBVIEW2_SAVE_AS_KIND_DEFAULT,
+    COREWEBVIEW2_SAVE_AS_KIND_HTML_ONLY,
+    COREWEBVIEW2_SAVE_AS_KIND_SINGLE_FILE,
+    COREWEBVIEW2_SAVE_AS_KIND_COMPLETE
+}

@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34723.18
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11304.174 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebviewTestAot", "WebviewTestAot\WebviewTestAot.csproj", "{53D90245-A5AB-4E1D-A4C4-1BE2EE98E9B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWindowsWrapper", "CoreWindowsWrapper\CoreWindowsWrapper.csproj", "{D0CDF622-9BDB-43C0-9EFE-6D8E7B1DFE70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.NativeControls.WebBrowser", "Diga.NativeControls.WebBrowser\Diga.NativeControls.WebBrowser.csproj", "{A3101929-943B-AE77-4B4B-021AAB0D68D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Interop", "Diga.WebView2.Interop\Diga.WebView2.Interop.csproj", "{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Wrapper", "Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj", "{FD35D213-35C7-515A-E0E0-EB595CE0B643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{D0CDF622-9BDB-43C0-9EFE-6D8E7B1DFE70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0CDF622-9BDB-43C0-9EFE-6D8E7B1DFE70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0CDF622-9BDB-43C0-9EFE-6D8E7B1DFE70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

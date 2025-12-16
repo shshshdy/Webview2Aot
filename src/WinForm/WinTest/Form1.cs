@@ -40,6 +40,9 @@ namespace WinTest
                 {
                     Directory.CreateDirectory(userDataFolder);
                 }
+#if !DEBUG
+                Microsoft.Web.WebView2.Core.CoreWebView2Environment.SetLoaderDllFolderPath(Path.Combine(AppContext.BaseDirectory, "Data","Lib"));
+#endif
                 var environment = await Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(envFolder, userDataFolder);
                 var webview = new Microsoft.Web.WebView2.WinForms.WebView2()
                 {

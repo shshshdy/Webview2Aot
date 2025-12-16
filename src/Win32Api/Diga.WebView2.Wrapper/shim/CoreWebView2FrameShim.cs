@@ -1,0 +1,106 @@
+﻿using Diga.WebView2.Interop;
+using Diga.WebView2.Wrapper.Types;
+using Microsoft.Win32.SafeHandles;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace Diga.WebView2.Wrapper.shim
+{
+    public class CoreWebView2FrameShim : IDisposable
+    {
+        private ComObjectHolder<ICoreWebView2Frame> _Args;
+        private bool disposedValue;
+
+        /// Wraps in SafeHandle so resources can be released if consumer forgets to call Dispose. Recommended
+        ///             pattern for any type that is not sealed.
+        ///             https://docs.microsoft.com/dotnet/api/system.idisposable#idisposable-and-the-inheritance-hierarchy
+        private SafeHandle handle = new SafeFileHandle(nint.Zero, true);
+
+        private ICoreWebView2Frame Args
+        {
+            get
+            {
+                if (_Args == null)
+                {
+                    Debug.Print(nameof(CoreWebView2FrameShim) + " Args is null");
+                    throw new InvalidOperationException(nameof(CoreWebView2FrameShim) + " Args is null");
+                }
+
+                return _Args.Interface;
+            }
+            set
+            {
+                _Args = new ComObjectHolder<ICoreWebView2Frame>(value);
+            }
+        }
+
+        public CoreWebView2FrameShim(ICoreWebView2Frame args)
+        {
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+            Args = args;
+
+        }
+        public string name => Args.Getname();
+
+        public void add_NameChanged([In, MarshalAs(UnmanagedType.Interface)] ICoreWebView2FrameNameChangedEventHandler eventHandler, out EventRegistrationToken token)
+        {
+            Args.add_NameChanged(eventHandler, out token);
+        }
+
+        public void remove_NameChanged([In] EventRegistrationToken token)
+        {
+            Args.remove_NameChanged(token);
+        }
+
+        public void AddHostObjectToScriptWithOrigins([In, MarshalAs(UnmanagedType.LPWStr)] string name, object @object, [In] uint originsCount, [In, MarshalAs(UnmanagedType.LPWStr)] string origins)
+        {
+            Args.AddHostObjectToScriptWithOrigins(name, @object, originsCount, origins);
+        }
+
+        public void RemoveHostObjectFromScript([In, MarshalAs(UnmanagedType.LPWStr)] string name)
+        {
+            Args.RemoveHostObjectFromScript(name);
+        }
+
+        public void add_Destroyed([In, MarshalAs(UnmanagedType.Interface)] ICoreWebView2FrameDestroyedEventHandler eventHandler, out EventRegistrationToken token)
+        {
+            Args.add_Destroyed(eventHandler, out token);
+        }
+
+        public void remove_Destroyed([In] EventRegistrationToken token)
+        {
+            Args.remove_Destroyed(token);
+        }
+
+        public int IsDestroyed()
+        {
+            return Args.IsDestroyed();
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    handle.Dispose();
+                    _Args = null;
+                }
+
+                disposedValue = true;
+            }
+        }
+
+
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+
+    }
+}

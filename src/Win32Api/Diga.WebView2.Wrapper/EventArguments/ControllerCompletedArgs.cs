@@ -1,0 +1,19 @@
+﻿using Diga.WebView2.Interop;
+
+namespace Diga.WebView2.Wrapper.EventArguments
+{
+    public class ControllerCompletedArgs : EventArgs
+    {
+        public ControllerCompletedArgs(ICoreWebView2Controller controller, ICoreWebView2 webView)
+        {
+            ICoreWebView2Controller4 controller4 = controller as ICoreWebView2Controller4;
+
+            this.Controller = controller4;
+            this.WebView = webView;
+        }
+
+        public ICoreWebView2Controller4 Controller { get; }
+
+        public ICoreWebView2 WebView { get; }
+    }
+}

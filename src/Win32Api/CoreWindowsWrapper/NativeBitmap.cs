@@ -8,7 +8,6 @@ namespace CoreWindowsWrapper
     {
         private bool _created = false;
         private object _source;
-
         protected override void Initialize()
         {
             base.Initialize();
@@ -37,11 +36,26 @@ namespace CoreWindowsWrapper
                 if (_source == value) return;
                 _source = value;
                 if (_created)
+                {
                     Refresh();
+                }
             }
+        }
+
+        /// <summary>
+        /// 预处理图片
+        /// </summary>
+        /// <returns></returns>
+        public virtual object? PreSource(object? source)
+        {
+            return null;
         }
         public void Refresh()
         {
+            var preSource = PreSource(_source);
+            if (preSource != null)
+                _source = preSource;
+
             if (Source == null) return;
             if (Source.GetType() == typeof(string))
             {
@@ -49,6 +63,7 @@ namespace CoreWindowsWrapper
                 if (!string.IsNullOrEmpty(path))
                 {
                     if (!File.Exists(path)) return;
+                    var name = Path.GetFileName(path);
                     IntPtr hBmp = Tools.ImageTool.SafeLoadBitmapFromFile(path);
                     User32.SendMessage(Handle, StaticControlMessages.STM_SETIMAGE, ImageTypeConst.IMAGE_BITMAP, hBmp);
                 }

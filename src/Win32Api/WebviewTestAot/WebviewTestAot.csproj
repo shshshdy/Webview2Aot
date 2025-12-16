@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net9.0-windows</TargetFramework>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PublishAot>true</PublishAot>
@@ -20,28 +20,23 @@
 		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Diga.WebView2.Interop.AOT" Version="1.0.1-preview" />
-		<PackageReference Include="Diga.WebView2.Wrapper.AOT" Version="1.0.1-preview" />
-		<PackageReference Include="MimeTypeExtension" Version="1.0.30" />
 		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
-		<PackageReference Include="VC-LTL" Version="5.1.1" />
+		<PackageReference Include="VC-LTL" Version="5.2.1" />
+		<PackageReference Include="YY-Thunks" Version="1.1.7" />
 		<!--<PackageReference Include="Diga.NativeControls.WebBrowser.AOT" Version="1.0.1-preview" />-->
 	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\CoreWindowsWrapper\CoreWindowsWrapper.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="lib\" />
-	</ItemGroup>
 	<ItemGroup Condition="'$(IsArm64)'=='true'">
-		<None Include="..\lib\arm64\Diga.WebView2.Native.dll" Link="lib\Diga.WebView2.Native.dll">
+		<None Include="..\lib\arm64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 	<ItemGroup Condition="'$(IsX64)'=='true'">
-		<None Include="..\lib\x64\Diga.WebView2.Native.dll" Link="lib\Diga.WebView2.Native.dll">
+		<None Include="..\lib\x64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Diga.NativeControls.WebBrowser\Diga.NativeControls.WebBrowser.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="Data\image\ok.bmp">

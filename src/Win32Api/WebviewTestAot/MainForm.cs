@@ -29,7 +29,6 @@ namespace WebviewTestAot
         NativeBitmap _bitmap;
         protected void InitializeComponent()
         {
-
             Opacity = true;
             //ShowBodyFrame = false;
             Text = "xxx";
@@ -61,18 +60,17 @@ namespace WebviewTestAot
                 Url = "https://www.bing.com",
                 UserDataFolder = Path.Combine(AppContext.BaseDirectory, "Data", "Cache"),
                 EnvFolder = env,
-                Width = 800,
-                Height = 400,
-                Top = 20,
                 Dock = false
             };
+            _webveiw.Width = 800;
+            _webveiw.Height = 400;
+            _webveiw.Top = 20;
             Controls.Add(_webveiw);
           
             var path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "remove.png");
-            var bytes = File.ReadAllBytes(path);
-            _bitmap = new NativeBitmap
+            _bitmap = new ImageContorl
             {
-                Source = bytes.ToUint(),
+                Source = path,
                 Left = 20,
                 Top = 421
             };
@@ -86,13 +84,13 @@ namespace WebviewTestAot
             };
             Controls.Add(_bitmap);
             path = Path.Combine(AppContext.BaseDirectory, "Data", "image", "ok.bmp");
-            var bitmap = new NativeBitmap
+            var bitmap = new ImageContorl
             {
                 Source = path,
                 Left = 400,
                 Top = 421
             };
-
+            bitmap.Refresh();
             bitmap.DblClicked += (s, e) => MessageBox.Show("double click");
             Controls.Add(bitmap);
         }

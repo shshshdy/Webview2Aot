@@ -113,49 +113,29 @@ namespace CoreWindowsWrapper
             get => this.Control.BackColor;
             set => this.Control.BackColor = value;
         }
-        public EventHandler<EventArgs> LeftChanged;
+
         public int Left
         {
             get => this.Control.Left;
-            set
-            {
-                if (this.Control.Left == value) return;
-                this.Control.Left = value;
-                LeftChanged?.Invoke(this, EventArgs.Empty);
-            }
+            set => this.Control.Left = value;
         }
-        public EventHandler<EventArgs> TopChanged;
+
         public int Top
         {
             get => this.Control.Top;
-            set
-            {
-                if (this.Control.Top == value) return;
-                this.Control.Top = value;
-                TopChanged?.Invoke(this, EventArgs.Empty);
-            }
+            set => this.Control.Top = value;
         }
-        public EventHandler<EventArgs> WidthChanged;
+
         public int Width
         {
             get => this.Control.Width;
-            set
-            {
-                if (this.Control.Width == value) return;
-                this.Control.Width = value;
-                WidthChanged?.Invoke(this, EventArgs.Empty);
-            }
+            set => this.Control.Width = value;
         }
-        public EventHandler<EventArgs> HeightChanged;
+
         public int Height
         {
             get => this.Control.Height;
-            set
-            {
-                if (this.Control.Height == value) return;
-                this.Control.Height = value;
-                HeightChanged?.Invoke(this, EventArgs.Empty);
-            }
+            set => this.Control.Height = value;
         }
 
         public Point Location
@@ -225,7 +205,7 @@ namespace CoreWindowsWrapper
             bool retCreate = this.Control.Create(parentId);
             this.AfterCreate();
             this.Control.WndProc = OnWndProc;
-
+            
             if (User32.GetClientRect(parentId, out Rect pRect))
             {
                 _DiffLeft = this.Left;
@@ -336,7 +316,7 @@ namespace CoreWindowsWrapper
                 if (NativeApp.ExceptInEvents)
                     throw;
 
-                MessageBox.Show(this.Handle, "Event Error:" + e.Message, "EventError", MessageBoxOptions.OkOnly | MessageBoxOptions.IconError);
+                MessageBox.Show(this.Handle,"Event Error:" + e.Message,"EventError", MessageBoxOptions.OkOnly | MessageBoxOptions.IconError);
             }
         }
 
