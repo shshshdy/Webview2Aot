@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.1.11304.174 d18.0
+VisualStudioVersion = 18.1.11304.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebviewTestAot", "WebviewTestAot\WebviewTestAot.csproj", "{53D90245-A5AB-4E1D-A4C4-1BE2EE98E9B1}"
 EndProject
@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWindowsWrapper", "CoreW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.NativeControls.WebBrowser", "Diga.NativeControls.WebBrowser\Diga.NativeControls.WebBrowser.csproj", "{A3101929-943B-AE77-4B4B-021AAB0D68D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Interop", "Diga.WebView2.Interop\Diga.WebView2.Interop.csproj", "{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Interop", "..\Diga.Webview\Diga.WebView2.Interop\Diga.WebView2.Interop.csproj", "{0A2003D1-394C-3CBB-968E-ACF027FDE04F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Wrapper", "Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj", "{FD35D213-35C7-515A-E0E0-EB595CE0B643}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diga.WebView2.Wrapper", "..\Diga.Webview\Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj", "{CF8B1099-FD6A-2A2D-28D5-BA36E23FDE23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3101929-943B-AE77-4B4B-021AAB0D68D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDBD3D8D-4DBD-DF6B-28A6-B9DC8EF45BBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD35D213-35C7-515A-E0E0-EB595CE0B643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A2003D1-394C-3CBB-968E-ACF027FDE04F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2003D1-394C-3CBB-968E-ACF027FDE04F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2003D1-394C-3CBB-968E-ACF027FDE04F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2003D1-394C-3CBB-968E-ACF027FDE04F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF8B1099-FD6A-2A2D-28D5-BA36E23FDE23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF8B1099-FD6A-2A2D-28D5-BA36E23FDE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF8B1099-FD6A-2A2D-28D5-BA36E23FDE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF8B1099-FD6A-2A2D-28D5-BA36E23FDE23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,9 +5,14 @@
 		<TargetFramework>net10.0-windows7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
-		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Platforms>x64</Platforms>
+		<IsArm64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'Arm64'">true</IsArm64>
+		<IsX64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'X64'">true</IsX64>
+
+		<!--Don't forget to disable while Developing!-->
+		<PublishAot>true</PublishAot>
+		<!--Don't forget to disable while Developing!-->
+		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<InvariantGlobalization>true</InvariantGlobalization>
@@ -18,10 +23,20 @@
 		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
-		<PackageReference Include="VC-LTL" Version="5.1.1" />
-		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
-		<TrimmerRootAssembly Include="Microsoft.Web.WebView2.Core" />
+		<PackageReference Include="VC-LTL" Version="5.3.1" />
+		<PackageReference Include="YY-Thunks" Version="1.1.9" />
+		<ProjectReference Include="..\..\Diga.Webview\Diga.WebView2.Interop\Diga.WebView2.Interop.csproj" />
+		<ProjectReference Include="..\..\Diga.Webview\Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(IsArm64)'=='true'">
+		<None Include="..\..\Diga.Webview\lib\arm64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup Condition="'$(IsX64)'=='true'">
+		<None Include="..\..\Diga.Webview\lib\x64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace WinTest
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,18 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            webView1 = new WebView();
             SuspendLayout();
             // 
-            // Form1
+            // webView1
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            webView1.BackColor = Color.Black;
+            webView1.Dock = DockStyle.Fill;
+            webView1.Location = new Point(0, 0);
+            webView1.Name = "webView1";
+            webView1.Size = new Size(800, 450);
+            webView1.TabIndex = 0;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Name = "Form1";
-            Text = "Form1";
+            Controls.Add(webView1);
+            Name = "MainForm";
+            Text = "WebView";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private WebView webView1;
     }
 }

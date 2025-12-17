@@ -103,7 +103,7 @@ namespace CoreWindowsWrapper
 
         private bool _opacity;
         /// <summary>
-        /// 设置背景色
+        /// 窗体透明
         /// </summary>
         public bool Opacity
         {

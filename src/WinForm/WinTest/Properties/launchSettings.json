@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WinTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

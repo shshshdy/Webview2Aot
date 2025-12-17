@@ -30,9 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Diga.Webview\Diga.WebView2.Interop\Diga.WebView2.Interop.csproj" />
+    <ProjectReference Include="..\..\Diga.Webview\Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj" />
     <ProjectReference Include="..\CoreWindowsWrapper\CoreWindowsWrapper.csproj" />
-    <ProjectReference Include="..\Diga.WebView2.Interop\Diga.WebView2.Interop.csproj" />
-    <ProjectReference Include="..\Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
