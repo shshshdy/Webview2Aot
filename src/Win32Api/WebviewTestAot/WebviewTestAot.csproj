@@ -26,12 +26,12 @@
 		<!--<PackageReference Include="Diga.NativeControls.WebBrowser.AOT" Version="1.0.1-preview" />-->
 	</ItemGroup>
 	<ItemGroup Condition="'$(IsArm64)'=='true'">
-		<None Include="..\..\Diga.Webview\lib\arm64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+		<None Include="..\..\lib\arm64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 	<ItemGroup Condition="'$(IsX64)'=='true'">
-		<None Include="..\..\Diga.Webview\lib\x64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+		<None Include="..\..lib\x64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

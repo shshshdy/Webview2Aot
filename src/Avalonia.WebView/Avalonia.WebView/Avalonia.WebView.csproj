@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <IsArm64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'Arm64'">true</IsArm64>
+        <IsX64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture)' == 'X64'">true</IsX64>
+        <IsWindows Condition="$([System.Environment]::OSVersion.Platform) == 'Win32NT'">true</IsWindows>
+        <AssemblyName>WebViewTest</AssemblyName>
+		<DefineConstants Condition="'$(IsWindows)'=='true'">$(DefineConstants);WINDOWS</DefineConstants>
+    </PropertyGroup>
+
+
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.3.10" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.10" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Condition="'$(IsWindows)'=='true'" Include="..\..\Diga.Webview\Diga.WebView2.Interop\Diga.WebView2.Interop.csproj" />
+      <ProjectReference Condition="'$(IsWindows)'=='true'" Include="..\..\Diga.Webview\Diga.WebView2.Wrapper\Diga.WebView2.Wrapper.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(IsWindows)|$(IsArm64)'=='true|true'">
+        <None Include="..\..\Diga.Webview\lib\arm64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)|$(IsX64)'=='true|true'">
+        <None Include="..\..\Diga.Webview\lib\x64\Diga.WebView2.Native.dll" Link="Data\Diga.WebView2.Native.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup Condition="'$(IsWindows)'!='true'">
+        <None Include="..\lib\osx\libWKWebViewBridge.dylib" Link="libWKWebViewBridge.dylib">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

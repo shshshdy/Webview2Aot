@@ -2,3 +2,4 @@
 **/obj
 **/publish
 **/.vs
+*.DS_Store
