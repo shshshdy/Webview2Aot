@@ -3,3 +3,4 @@
 **/publish
 **/.vs
 *.DS_Store
+**/.idea
